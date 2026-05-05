@@ -2,16 +2,35 @@
 <html>
 <head>
   <title>Editar</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+  
+<%- include("partials/header") %>
 
-  <h1>Editar Produto</h1>
+<main class="main">
 
-  <form action="/products/<%= product._id %>/update" method="POST">
-    <input type="text" name="name" value="<%= product.name %>" required>
-    <input type="number" name="price" value="<%= product.price %>" required>
-    <button type="submit">Salvar</button>
-  </form>
+  <div class="form-box">
+
+    <h1>Editar Produto</h1>
+
+    <form action="/products/<%= product._id %>/update" method="POST">
+      <input type="text" name="name" value="<%= product.name %>" required>
+      <input type="number" name="price" value="<%= product.price %>" required>
+      <button type="submit">Salvar</button>
+    </form>
+
+    <br>
+
+    <a href="/dashboard">
+      <button>Voltar</button>
+    </a>
+
+  </div>
+
+</main>
+
+<%- include("partials/footer") %>
 
 </body>
 </html>

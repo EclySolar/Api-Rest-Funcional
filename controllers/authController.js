@@ -4,10 +4,20 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
-    const hash = await bcrypt.hash(req.body.password, 10);
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.send("Um ou mais campos estão vazios");
+    }
+
+    if (password.length < 8) {
+      return res.send("A senha deve ter no mínimo 8 caracteres");
+    }
+
+    const hash = await bcrypt.hash(password, 10);
 
     await User.create({
-      email: req.body.email,
+      email,
       password: hash
     });
 
@@ -19,14 +29,20 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const { email, password } = req.body;
 
-    if (!user) return res.status(400).send("Usuário não encontrado");
+    if (!email || !password) {
+      return res.send("Um ou mais campos estão vazios");
+    }
 
-    const valid = await bcrypt.compare(req.body.password, user.password);
-    if (!valid) return res.status(400).send("Senha inválida");
+    const user = await User.findOne({ email });
 
-    const token = jwt.sign({ id: user._id }, "segredo");
+    if (!user) return res.send("Usuário não encontrado");
+
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) return res.send("Senha inválida");
+
+    jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
     res.cookie("token", token);
     res.redirect("/dashboard");
