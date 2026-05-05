@@ -2,20 +2,25 @@ const express = require("express");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
+const Product = require("./models/Product");
 
 const app = express();
 
-// middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
 
-// banco
+app.set("view engine", "ejs");
+
 connectDB();
 
-// rotas
 app.use("/products", require("./routes/productRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
 
-// servidor
+app.get("/", async (req, res) => {
+  const products = await Product.find();
+  res.render("index", { products });
+});
+
 app.listen(3000, () => {
-  console.log("Rodando na porta 3000");
+  console.log("Rodando em http://localhost:3000");
 });
