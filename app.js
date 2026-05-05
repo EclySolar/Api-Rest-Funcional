@@ -15,6 +15,7 @@ connectDB();
 
 app.use("/products", require("./routes/productRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
+app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
   const products = await Product.find();
