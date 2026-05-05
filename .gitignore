@@ -1,0 +1,4 @@
+#exclui a pasta node_modules do repositório
+node_modules/
+#exclui variaveis de hambiente
+.ENV
