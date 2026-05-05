@@ -3,24 +3,34 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
-  const hash = await bcrypt.hash(req.body.password, 10);
+  try {
+    const hash = await bcrypt.hash(req.body.password, 10);
 
-  const user = await User.create({
-    email: req.body.email,
-    password: hash
-  });
+    await User.create({
+      email: req.body.email,
+      password: hash
+    });
 
-  res.json(user);
+    res.redirect("/login");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.login = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  try {
+    const user = await User.findOne({ email: req.body.email });
 
-  if (!user) return res.status(400).json({ msg: "Erro" });
+    if (!user) return res.status(400).send("Usuário não encontrado");
 
-  const valid = await bcrypt.compare(req.body.password, user.password);
-  if (!valid) return res.status(400).json({ msg: "Erro" });
+    const valid = await bcrypt.compare(req.body.password, user.password);
+    if (!valid) return res.status(400).send("Senha inválida");
 
-  const token = jwt.sign({ id: user._id }, "segredo");
-  res.json({ token });
+    const token = jwt.sign({ id: user._id }, "segredo");
+
+    res.cookie("token", token);
+    res.redirect("/dashboard");
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <div style="text-align: center; margin-top: 80px;">
+    <h1>Login</h1>
+
+    <form action="/auth/login" method="POST">
+      <input type="email" name="email" placeholder="Email" required><br><br>
+      <input type="password" name="password" placeholder="Senha" required><br><br>
+      <button type="submit">Entrar</button>
+    </form>
+
+    <h2>Registrar</h2>
+
+    <form action="/auth/register" method="POST">
+      <input type="email" name="email" placeholder="Email" required><br><br>
+      <input type="password" name="password" placeholder="Senha" required><br><br>
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <br>
+    <a href="/">Voltar</a>
+  </div>
+
+</body>
+</html>
