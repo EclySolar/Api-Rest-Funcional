@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Editar</title>
+</head>
+<body>
+
+  <h1>Editar Produto</h1>
+
+  <form action="/products/<%= product._id %>/update" method="POST">
+    <input type="text" name="name" value="<%= product.name %>" required>
+    <input type="number" name="price" value="<%= product.price %>" required>
+    <button type="submit">Salvar</button>
+  </form>
+
+</body>
+</html>

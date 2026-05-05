@@ -9,15 +9,27 @@
   <h1>Produtos</h1>
 
   <form action="/products" method="POST">
-    <input type="text" name="name" placeholder="Nome">
-    <input type="number" name="price" placeholder="Preço">
+    <input type="text" name="name" placeholder="Nome" required>
+    <input type="number" name="price" placeholder="Preço" required>
     <button type="submit">Adicionar</button>
   </form>
 
   <ul>
     <% products.forEach(p => { %>
       <li>
-        <%= p.name %> - R$ <%= p.price %>
+        <span>
+          <strong><%= p.name %></strong> - R$ <%= p.price %>
+        </span>
+
+        <div>
+          <a href="/up/<%= p._id %>">⬆️</a>
+          <a href="/down/<%= p._id %>">⬇️</a>
+          <a href="/edit/<%= p._id %>">✏️</a>
+
+          <form action="/products/<%= p._id %>/delete" method="POST" style="display:inline;">
+            <button type="submit">❌</button>
+          </form>
+        </div>
       </li>
     <% }) %>
   </ul>

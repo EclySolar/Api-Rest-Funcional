@@ -3,7 +3,7 @@ const Product = require("../models/Product");
 exports.createProduct = async (req, res) => {
   try {
     await Product.create(req.body);
-    res.redirect("/"); 
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -25,7 +25,12 @@ exports.updateProduct = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.json(updated);
+
+    if (req.headers.accept && req.headers.accept.includes("application/json")) {
+      return res.json(updated);
+    }
+
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -34,7 +39,12 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
-    res.redirect("/"); 
+
+    if (req.headers.accept && req.headers.accept.includes("application/json")) {
+      return res.json({ msg: "Deletado" });
+    }
+
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
