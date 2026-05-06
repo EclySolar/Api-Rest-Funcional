@@ -40,11 +40,21 @@ exports.login = async (req, res) => {
     if (!user) return res.send("Usuário não encontrado");
 
     const valid = await bcrypt.compare(password, user.password);
+
     if (!valid) return res.send("Senha inválida");
 
-    jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // true em produção (HTTPS)
+      sameSite: "lax"
+    });
+
     res.redirect("/dashboard");
   } catch (err) {
     res.status(500).json({ error: err.message });

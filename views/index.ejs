@@ -8,11 +8,20 @@
   
 <%- include("partials/header") %>
 <main class="main">
+
+  
   <h1>Produtos</h1>
+  
 
   <form action="/products" method="POST">
     <input type="text" name="name" placeholder="Nome" required>
-    <input type="number" name="price" placeholder="Preço" required>
+    <input
+  type="text"
+  name="price"
+  placeholder="Preço (ex: 10,50)"
+  required
+  oninput="this.value = this.value.replace(/[^0-9,]/g, '')"
+/>
     <button type="submit">Adicionar</button>
   </form>
 
@@ -20,7 +29,10 @@
     <% products.forEach(p => { %>
       <li>
         <span>
-          <strong><%= p.name %></strong> - R$ <%= p.price %>
+          <strong><%= p.name %></strong> -R$ <%= (p.price / 100).toLocaleString("pt-BR", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}) %>
         </span>
 
         <div>
