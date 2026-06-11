@@ -7,6 +7,9 @@ const Product = require("./models/Product");
 const session = require("express-session");
 const auth = require("./middleware/auth");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger/swagger");
+
 const app = express();
 
 app.use(express.json());
@@ -32,11 +35,21 @@ connectDB();
 app.use("/products", require("./routes/productRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
 
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
+
 app.get("/choose", (req, res) => {
   res.render("choose");
 });
 
 app.get("/register", (req, res) => {
+  if (req.session.user) {
+    return res.redirect("/dashboard");
+  }
+
   res.render("register");
 });
 
@@ -45,6 +58,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+  if (req.session.user) {
+    return res.redirect("/dashboard");
+  }
+
   res.render("login");
 });
 
