@@ -4,7 +4,7 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 const Product = require("./models/Product");
 
-const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const auth = require("./middleware/auth");
 
 const app = express();
@@ -12,7 +12,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "minha-chave-super-secreta",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60, // 1 hora
+      httpOnly: true
+    }
+  })
+);
 
 app.set("view engine", "ejs");
 
@@ -20,6 +31,7 @@ connectDB();
 
 app.use("/products", require("./routes/productRoutes"));
 app.use("/auth", require("./routes/authRoutes"));
+
 app.get("/choose", (req, res) => {
   res.render("choose");
 });
@@ -51,10 +63,11 @@ app.get("/up/:id", auth, async (req, res) => {
 
   if (!p) return res.redirect("/dashboard");
 
-  const acima = await Product.findOne({ order: { $lt: p.order } })
-    .sort({ order: -1 });
+  const acima = await Product.findOne({
+    order: { $lt: p.order }
+  }).sort({ order: -1 });
 
-  if (!acima) return res.redirect("/dashboard"); // já está no topo
+  if (!acima) return res.redirect("/dashboard");
 
   const temp = p.order;
   p.order = acima.order;
@@ -71,10 +84,11 @@ app.get("/down/:id", auth, async (req, res) => {
 
   if (!p) return res.redirect("/dashboard");
 
-  const abaixo = await Product.findOne({ order: { $gt: p.order } })
-    .sort({ order: 1 });
+  const abaixo = await Product.findOne({
+    order: { $gt: p.order }
+  }).sort({ order: 1 });
 
-  if (!abaixo) return res.redirect("/dashboard"); // já está no final
+  if (!abaixo) return res.redirect("/dashboard");
 
   const temp = p.order;
   p.order = abaixo.order;

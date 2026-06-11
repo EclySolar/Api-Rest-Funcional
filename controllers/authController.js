@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
   try {
@@ -37,26 +36,35 @@ exports.login = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    if (!user) return res.send("Usuário não encontrado");
+    if (!user) {
+      return res.send("Usuário não encontrado");
+    }
 
     const valid = await bcrypt.compare(password, user.password);
 
-    if (!valid) return res.send("Senha inválida");
+    if (!valid) {
+      return res.send("Senha inválida");
+    }
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    req.session.user = {
+      id: user._id,
+      email: user.email
+    };
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // true em produção (HTTPS)
-      sameSite: "lax"
-    });
+    return res.redirect("/dashboard");
 
-    res.redirect("/dashboard");
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+};
+
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.send("Erro ao sair");
+    }
+
+    res.clearCookie("connect.sid");
+    return res.redirect("/login");
+  });
 };
