@@ -1,4 +1,4 @@
-# GameStore - Catálogo de Produtos Gamer
+# TechWorld - Catálogo de Produtos Gamer
 
 Sistema web para gerenciamento de produtos de informática gamer, com autenticação de usuários, controle de acesso e organização de itens.
 
@@ -81,6 +81,8 @@ PORT=3000
 MONGO_URI=mongodb://localhost:27017/catalogo
 JWT_SECRET=sua_chave_secreta
 
+Exemplo de como é para ficar
+https://github.com/EclySolar/Api-Rest-Funcional/issues/1#issue-4692642659
 
 4. Iniciar o projeto:
 

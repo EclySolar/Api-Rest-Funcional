@@ -4,34 +4,40 @@ function parsePrice(value) {
   if (typeof value === "string") {
     return Math.round(Number(value.replace(",", ".")) * 100);
   }
+
   return Math.round(Number(value) * 100);
 }
 
 exports.createProduct = async (req, res) => {
   try {
     const count = await Product.countDocuments();
-
     const { name, price } = req.body;
 
-    await Product.create({
+    const product = await Product.create({
       name,
       price: parsePrice(price),
       order: count
     });
 
-    return res.redirect("/dashboard");
+    return res.status(201).json(product);
 
   } catch (err) {
-    return res.redirect("/dashboard");
+    return res.status(500).json({
+      error: err.message
+    });
   }
 };
 
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    res.json(products);
+
+    return res.status(200).json(products);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      error: err.message
+    });
   }
 };
 
@@ -45,10 +51,10 @@ exports.getProductById = async (req, res) => {
       });
     }
 
-    res.json(product);
+    return res.status(200).json(product);
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       error: err.message
     });
   }
@@ -58,7 +64,7 @@ exports.updateProduct = async (req, res) => {
   try {
     const { name, price } = req.body;
 
-    await Product.findByIdAndUpdate(
+    const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       {
         name,
@@ -67,28 +73,35 @@ exports.updateProduct = async (req, res) => {
       { new: true }
     );
 
-    return res.redirect("/dashboard");
+    if (!updatedProduct) {
+      return res.status(404).json({
+        error: "Produto não encontrado"
+      });
+    }
+
+    return res.status(200).json(updatedProduct);
 
   } catch (err) {
-    return res.redirect("/dashboard");
+    return res.status(500).json({
+      error: err.message
+    });
   }
 };
 
 exports.deleteProduct = async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
 
-    if (
-      req.headers.accept &&
-      req.headers.accept.includes("application/json")
-    ) {
-      return res.json({ msg: "Deletado" });
+    if (!deletedProduct) {
+      return res.status(404).json({
+        error: "Produto não encontrado"
+      });
     }
 
-    res.redirect("/dashboard");
+    return res.sendStatus(204);
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       error: err.message
     });
   }
