@@ -36,21 +36,20 @@ Sistema web para gerenciamento de produtos de informática gamer desenvolvido em
 
 ### Página Inicial
 
-![Página Inicial](INSIRA_AQUI_O_LINK)
+![Página Inicial](https://github.com/EclySolar/Api-Rest-Funcional/issues/2#issue-4692935182)
 
 ### Dashboard
 
-![Dashboard](INSIRA_AQUI_O_LINK)
+![Dashboard](https://github.com/EclySolar/Api-Rest-Funcional/issues/3#issue-4692955205)
 
 ### Swagger
 
-![Swagger](INSIRA_AQUI_O_LINK)
+![Swagger](https://github.com/EclySolar/Api-Rest-Funcional/issues/4#issue-4692964165)
 
 ---
 
 ## Estrutura do Projeto
 
-```text
 projeto/
 ├── config/
 ├── controllers/
@@ -70,7 +69,6 @@ projeto/
 ├── .env.example
 ├── app.js
 └── package.json
-```
 
 ---
 
@@ -78,21 +76,21 @@ projeto/
 
 Clone o repositório:
 
-```bash
+bash
 git clone https://github.com/EclySolar/Api-Rest-Funcional.git
-```
+
 
 Entre na pasta do projeto:
 
-```bash
+bash
 cd Api-Rest-Funcional
-```
+
 
 Instale as dependências:
 
-```bash
+bash
 npm install
-```
+
 
 ---
 
@@ -100,11 +98,11 @@ npm install
 
 Crie um arquivo `.env` utilizando o `.env.example` como base.
 
-```env
+env
 PORT=3000
 MONGO_URI=mongodb://localhost:27017/catalogo
 SESSION_SECRET=sua_chave_secreta
-```
+
 
 ---
 
@@ -112,21 +110,20 @@ SESSION_SECRET=sua_chave_secreta
 
 Para iniciar a aplicação em modo de desenvolvimento:
 
-```bash
+bash
 npm run dev
-```
+
 
 ou
 
-```bash
+bash
 node app.js
-```
+
 
 A aplicação estará disponível em:
 
-```text
 http://localhost:3000
-```
+
 
 ---
 
@@ -134,9 +131,9 @@ http://localhost:3000
 
 Com o servidor em execução, a documentação pode ser acessada em:
 
-```text
+
 http://localhost:3000/api-docs
-```
+
 
 A interface Swagger permite visualizar e testar os endpoints diretamente pelo navegador utilizando o botão **Try it out**.
 
