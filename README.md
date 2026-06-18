@@ -1,145 +1,168 @@
 # TechWorld - Catálogo de Produtos Gamer
 
-Sistema web para gerenciamento de produtos de informática gamer, com autenticação de usuários, controle de acesso e organização de itens.
+Sistema web para gerenciamento de produtos de informática gamer desenvolvido em Node.js seguindo o padrão MVC. O sistema possui autenticação de usuários, controle de acesso, gerenciamento de produtos e documentação interativa com Swagger.
 
 ---
 
-## Tecnologias utilizadas
+## Tecnologias Utilizadas
 
 - Node.js
 - Express
 - MongoDB (Mongoose)
 - EJS
 - CSS
-- JSON Web Token (JWT)
+- Express Session
 - Bcrypt
 - Dotenv
-
----
-
-## Justificativa das escolhas
-
-- Express: framework leve e eficiente para construção de aplicações web
-- MongoDB: banco de dados flexível e de fácil integração
-- EJS: permite renderização simples no lado do servidor
-- JWT: autenticação stateless moderna
-- Bcrypt: garante segurança no armazenamento de senhas
-- Dotenv: separação de configurações sensíveis do código
+- Swagger UI Express
+- Swagger JSDoc
 
 ---
 
 ## Funcionalidades
 
 - Cadastro de usuários
-- Login com autenticação segura
-- Proteção de rotas
-- Cadastro de produtos
-- Edição e remoção de produtos
+- Login e logout
+- Controle de acesso por sessão
+- Proteção de rotas privadas
+- CRUD completo de produtos
+- Busca de produtos por ID
 - Ordenação manual de itens
-- Interface estilizada com layout consistente
+- Documentação interativa com Swagger
 
 ---
 
-## Estrutura do projeto
+## Demonstração
 
+### Página Inicial
 
+![Página Inicial](INSIRA_AQUI_O_LINK)
+
+### Dashboard
+
+![Dashboard](INSIRA_AQUI_O_LINK)
+
+### Swagger
+
+![Swagger](INSIRA_AQUI_O_LINK)
+
+---
+
+## Estrutura do Projeto
+
+```text
 projeto/
 ├── config/
 ├── controllers/
 ├── middleware/
 ├── models/
 ├── routes/
+├── swagger/
 ├── views/
-│ ├── partials/
-│ ├── login.ejs
-│ ├── register.ejs
-│ ├── home.ejs
-│ ├── index.ejs
-│ └── edit.ejs
+│   ├── partials/
+│   ├── login.ejs
+│   ├── register.ejs
+│   ├── home.ejs
+│   ├── index.ejs
+│   └── edit.ejs
 ├── public/
 ├── .env
 ├── .env.example
 ├── app.js
 └── package.json
-
+```
 
 ---
 
 ## Instalação
 
-1. Clonar o repositório
-2. Instalar dependências:
+Clone o repositório:
 
+```bash
+git clone https://github.com/EclySolar/Api-Rest-Funcional.git
+```
 
+Entre na pasta do projeto:
+
+```bash
+cd Api-Rest-Funcional
+```
+
+Instale as dependências:
+
+```bash
 npm install
-
-
-3. Criar o arquivo `.env` com base no `.env.example`:
-
-
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/catalogo
-JWT_SECRET=sua_chave_secreta
-
-Exemplo de como é para ficar
-![exemplo de .env para a aplicação] (https://github.com/EclySolar/Api-Rest-Funcional/issues/1#issue-4692642659)
-
-4. Iniciar o projeto:
-
-
-npm run dev
-
-
-5. Acessar no navegador:
-
-
-http://localhost:3000
-
+```
 
 ---
 
-## Funcionamento
+## Configuração
 
-### Autenticação
+Crie um arquivo `.env` utilizando o `.env.example` como base.
 
-- Senhas são criptografadas com bcrypt
-- Após login, um token JWT é gerado
-- O token é armazenado em cookie
-- Rotas protegidas verificam esse token
+```env
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/catalogo
+SESSION_SECRET=sua_chave_secreta
+```
 
-### Produtos
+---
 
-- Cada produto possui um campo de ordenação (`order`)
-- A movimentação na lista é feita trocando posição com itens vizinhos
-- Evita inconsistência e duplicação de ordem
+## Execução
+
+Para iniciar a aplicação em modo de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+ou
+
+```bash
+node app.js
+```
+
+A aplicação estará disponível em:
+
+```text
+http://localhost:3000
+```
+
+---
+
+## Documentação da API
+
+Com o servidor em execução, a documentação pode ser acessada em:
+
+```text
+http://localhost:3000/api-docs
+```
+
+A interface Swagger permite visualizar e testar os endpoints diretamente pelo navegador utilizando o botão **Try it out**.
 
 ---
 
 ## Segurança
 
-- Criptografia de senhas
-- Uso de JWT para autenticação
-- Variáveis sensíveis armazenadas no `.env`
+- Senhas criptografadas com Bcrypt
+- Controle de acesso por sessões
+- Middleware para proteção de rotas privadas
+- Variáveis sensíveis armazenadas no arquivo `.env`
 
 ---
 
-## Observações
-
-- O arquivo `.env` não deve ser versionado
-- O MongoDB deve estar em execução localmente
-
----
-
-## Possíveis melhorias
+## Possíveis Melhorias
 
 - Upload de imagens
 - Sistema de busca
-- Logout completo
-- Interface mais avançada
 - Responsividade aprimorada
+- Perfil de usuário
+- Paginação de produtos
 
 ---
 
 ## Autor
 
-Igor
+Igor Morgenstern
+
+GitHub: https://github.com/EclySolar
