@@ -34,10 +34,8 @@ Sistema web para gerenciamento de produtos de informática gamer desenvolvido em
 
 ## Demonstração
 
-<img src="https://github.com/EclySolar/Api-Rest-Funcional/issues/4#issue-4692964165"alt="Logo da Minha Empresa">
-
 ### Página Inicial
-
+//TODO arrumar as imagens para aparecer direto
 ![Página Inicial](https://github.com/EclySolar/Api-Rest-Funcional/issues/2#issue-4692935182)
 
 ### Dashboard
