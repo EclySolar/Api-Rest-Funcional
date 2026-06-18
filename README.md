@@ -52,11 +52,20 @@ Sistema web para gerenciamento de produtos de informática gamer desenvolvido em
 
 projeto/
 ├── config/
+    └── db.hs
 ├── controllers/
+    ├── authController.js
+    └── ProductController.js
 ├── middleware/
+    └── auth.js
 ├── models/
+    ├── Product.js
+    └── User.js
 ├── routes/
+    ├── authRoutes.js
+    └── productRoutes.js
 ├── swagger/
+    └── swagger.js
 ├── views/
 │   ├── partials/
 │   ├── login.ejs
@@ -65,6 +74,9 @@ projeto/
 │   ├── index.ejs
 │   └── edit.ejs
 ├── public/
+    ├── img/
+    |    ├──logo.png
+    └── style.css
 ├── .env
 ├── .env.example
 ├── app.js
