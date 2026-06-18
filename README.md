@@ -82,7 +82,7 @@ MONGO_URI=mongodb://localhost:27017/catalogo
 JWT_SECRET=sua_chave_secreta
 
 Exemplo de como é para ficar
-https://github.com/EclySolar/Api-Rest-Funcional/issues/1#issue-4692642659
+![exemplo de .env para a aplicação] (https://github.com/EclySolar/Api-Rest-Funcional/issues/1#issue-4692642659)
 
 4. Iniciar o projeto:
 
