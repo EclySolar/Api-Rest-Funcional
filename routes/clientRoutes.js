@@ -2,26 +2,26 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  createProduct,
-  getProducts,
-  getProductById,
-  updateProduct,
-  deleteProduct
-} = require("../controllers/productController");
+  createClient,
+  getClients,
+  getClientById,
+  updateClient,
+  deleteClient
+} = require("../controllers/clientController");
 
 /**
  * @swagger
  * tags:
- *   - name: Produtos
- *     description: CRUD privado de produtos
+ *   - name: Clientes
+ *     description: CRUD privado de clientes
  */
 
 /**
  * @swagger
- * /products:
+ * /clients:
  *   get:
- *     summary: Lista todos os produtos
- *     tags: [Produtos]
+ *     summary: Lista todos os clientes
+ *     tags: [Clientes]
  *     parameters:
  *       - in: header
  *         name: id-usuario
@@ -31,18 +31,18 @@ const {
  *         example: 1
  *     responses:
  *       200:
- *         description: Lista de produtos retornada com sucesso
+ *         description: Lista de clientes retornada com sucesso
  *       403:
  *         description: Acesso negado
  */
-router.get("/", getProducts);
+router.get("/", getClients);
 
 /**
  * @swagger
- * /products/{id}:
+ * /clients/{id}:
  *   get:
- *     summary: Busca produto por ID
- *     tags: [Produtos]
+ *     summary: Busca um cliente pelo ID
+ *     tags: [Clientes]
  *     parameters:
  *       - in: path
  *         name: id
@@ -58,20 +58,20 @@ router.get("/", getProducts);
  *         example: 1
  *     responses:
  *       200:
- *         description: Produto encontrado
+ *         description: Cliente encontrado
  *       404:
- *         description: Produto não encontrado
+ *         description: Cliente não encontrado
  *       403:
  *         description: Acesso negado
  */
-router.get("/:id", getProductById);
+router.get("/:id", getClientById);
 
 /**
  * @swagger
- * /products:
+ * /clients:
  *   post:
- *     summary: Cria um produto
- *     tags: [Produtos]
+ *     summary: Cria um novo cliente
+ *     tags: [Clientes]
  *     parameters:
  *       - in: header
  *         name: id-usuario
@@ -87,38 +87,34 @@ router.get("/:id", getProductById);
  *             type: object
  *             required:
  *               - nome
- *               - valor
- *               - estoque
- *               - categorias_id_categoria
+ *               - telefone
  *             properties:
  *               nome:
  *                 type: string
- *                 example: Mouse Gamer
- *               valor:
- *                 type: number
- *                 example: 129.9
- *               estoque:
- *                 type: integer
- *                 example: 10
- *               categorias_id_categoria:
- *                 type: integer
- *                 example: 5
+ *                 example: João da Silva
+ *               telefone:
+ *                 type: string
+ *                 example: "51999998888"
+ *               status:
+ *                 type: string
+ *                 enum: [bom, medio, ruim]
+ *                 example: medio
  *     responses:
  *       201:
- *         description: Produto criado com sucesso
+ *         description: Cliente criado com sucesso
  *       400:
- *         description: Dados obrigatórios ausentes
+ *         description: Dados inválidos
  *       403:
  *         description: Acesso negado
  */
-router.post("/", createProduct);
+router.post("/", createClient);
 
 /**
  * @swagger
- * /products/{id}:
+ * /clients/{id}:
  *   put:
- *     summary: Atualiza um produto
- *     tags: [Produtos]
+ *     summary: Atualiza um cliente
+ *     tags: [Clientes]
  *     parameters:
  *       - in: path
  *         name: id
@@ -140,40 +136,35 @@ router.post("/", createProduct);
  *             type: object
  *             required:
  *               - nome
- *               - valor
- *               - estoque
- *               - categorias_id_categoria
+ *               - telefone
+ *               - status
  *             properties:
  *               nome:
  *                 type: string
- *                 example: Teclado Mecânico
- *               valor:
- *                 type: number
- *                 example: 249.9
- *               estoque:
- *                 type: integer
- *                 example: 7
- *               categorias_id_categoria:
- *                 type: integer
- *                 example: 5
+ *                 example: João da Silva
+ *               telefone:
+ *                 type: string
+ *                 example: "51999998888"
+ *               status:
+ *                 type: string
+ *                 enum: [bom, medio, ruim]
+ *                 example: bom
  *     responses:
  *       200:
- *         description: Produto atualizado com sucesso
- *       400:
- *         description: Dados obrigatórios ausentes
+ *         description: Cliente atualizado com sucesso
  *       404:
- *         description: Produto não encontrado
+ *         description: Cliente não encontrado
  *       403:
  *         description: Acesso negado
  */
-router.put("/:id", updateProduct);
+router.put("/:id", updateClient);
 
 /**
  * @swagger
- * /products/{id}:
+ * /clients/{id}:
  *   delete:
- *     summary: Remove um produto
- *     tags: [Produtos]
+ *     summary: Remove um cliente
+ *     tags: [Clientes]
  *     parameters:
  *       - in: path
  *         name: id
@@ -189,12 +180,12 @@ router.put("/:id", updateProduct);
  *         example: 1
  *     responses:
  *       200:
- *         description: Produto removido com sucesso
+ *         description: Cliente removido com sucesso
  *       404:
- *         description: Produto não encontrado
+ *         description: Cliente não encontrado
  *       403:
  *         description: Acesso negado
  */
-router.delete("/:id", deleteProduct);
+router.delete("/:id", deleteClient);
 
 module.exports = router;

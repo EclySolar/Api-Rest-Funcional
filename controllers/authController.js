@@ -1,100 +1,84 @@
-const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const crypto = require("crypto");
+const usuarioModel = require("../models/usuarioModel");
 
 /**
- * Registra um novo usuário no sistema.
+ * Autentica um usuário usando a tabela usuarios do MySQL.
  *
  * @async
- * @param {import('express').Request} req Objeto de requisição do Express.
- * Espera um corpo JSON contendo "email" e "password".
+ * @param {import('express').Request} req Requisição do Express.
+ * Espera no body os campos "nick" e "senha".
  *
- * @param {import('express').Response} res Objeto de resposta do Express.
+ * @param {import('express').Response} res Resposta do Express.
  *
- * @returns {Promise<void>} Redireciona para a tela de login ou retorna um erro.
- */
-exports.register = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.send("Um ou mais campos estão vazios");
-    }
-
-    if (password.length < 8) {
-      return res.send("A senha deve ter no mínimo 8 caracteres");
-    }
-
-    const hash = await bcrypt.hash(password, 10);
-
-    await User.create({
-      email,
-      password: hash
-    });
-
-    res.redirect("/login");
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-/**
- * Autentica um usuário e cria uma sessão no servidor.
- *
- * @async
- * @param {import('express').Request} req Objeto de requisição do Express.
- * Espera um corpo JSON contendo "email" e "password".
- *
- * @param {import('express').Response} res Objeto de resposta do Express.
- *
- * @returns {Promise<void>} Cria uma sessão válida ou retorna uma mensagem de erro.
+ * @returns {Promise<void>} Cria uma sessão válida ou retorna erro.
  */
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { nick, senha } = req.body;
 
-    if (!email || !password) {
-      return res.send("Um ou mais campos estão vazios");
+    if (!nick || !senha) {
+      return res.status(400).json({
+        error: "Nick e senha são obrigatórios"
+      });
     }
 
-    const user = await User.findOne({ email });
+    const usuario = await usuarioModel.buscarPorNick(nick);
 
-    if (!user) {
-      return res.send("Usuário não encontrado");
+    if (!usuario) {
+      return res.status(401).json({
+        error: "Usuário não encontrado"
+      });
     }
 
-    const valid = await bcrypt.compare(password, user.password);
+    const senhaCriptografada = crypto
+      .createHash("md5")
+      .update(senha)
+      .digest("hex");
 
-    if (!valid) {
-      return res.send("Senha inválida");
+    if (senhaCriptografada !== usuario.senha) {
+      return res.status(401).json({
+        error: "Senha inválida"
+      });
     }
 
     req.session.user = {
-      id: user._id,
-      email: user.email
+      id_usuario: usuario.id_usuario,
+      nome: usuario.nome,
+      nick: usuario.nick
     };
 
-    return res.redirect("/dashboard");
+    return res.status(200).json({
+      message: "Login realizado com sucesso",
+      usuario: req.session.user
+    });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({
+      error: err.message
+    });
   }
 };
 
 /**
  * Encerra a sessão do usuário autenticado.
  *
- * @param {import('express').Request} req Objeto de requisição do Express.
- * @param {import('express').Response} res Objeto de resposta do Express.
+ * @param {import('express').Request} req Requisição do Express.
+ * @param {import('express').Response} res Resposta do Express.
  *
- * @returns {void} Remove a sessão e redireciona para a página de login.
+ * @returns {void} Remove a sessão e retorna confirmação.
  */
 exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.send("Erro ao sair");
+      return res.status(500).json({
+        error: "Erro ao sair"
+      });
     }
 
     res.clearCookie("connect.sid");
-    return res.redirect("/login");
+
+    return res.status(200).json({
+      message: "Logout realizado com sucesso"
+    });
   });
 };

@@ -2,36 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  register,
   login,
   logout
 } = require("../controllers/authController");
-
-/**
- * @swagger
- * /auth/register:
- *   post:
- *     summary: Cadastra um novo usuário
- *     tags:
- *       - Autenticação
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 example: usuario@email.com
- *               password:
- *                 type: string
- *                 example: 12345678
- *     responses:
- *       200:
- *         description: Usuário cadastrado com sucesso
- */
-router.post("/register", register);
 
 /**
  * @swagger
@@ -47,15 +20,17 @@ router.post("/register", register);
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               nick:
  *                 type: string
- *                 example: usuario@email.com
- *               password:
+ *                 example: candido
+ *               senha:
  *                 type: string
- *                 example: 12345678
+ *                 example: sua_senha
  *     responses:
  *       200:
  *         description: Login realizado com sucesso
+ *       401:
+ *         description: Usuário ou senha inválidos
  */
 router.post("/login", login);
 

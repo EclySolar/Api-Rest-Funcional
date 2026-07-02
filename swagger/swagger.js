@@ -4,9 +4,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API Produtos",
-      version: "1.0.0",
-      description: "Documentação da API"
+      title: "API Loja",
+      version: "2.0.0",
+      description: "Documentação da API utilizando MySQL"
     },
     servers: [
       {
@@ -14,10 +14,13 @@ const options = {
       }
     ]
   },
-  apis: [
-    "./routes/authRoutes.js",
-    "./routes/productRoutes.js"
-  ]
+apis: [
+  "./routes/authRoutes.js",
+  "./routes/categoriaRoutes.js",
+  "./routes/productRoutes.js",
+  "./routes/clientRoutes.js",
+  "./routes/orderRoutes.js"
+]
 };
 
 const swaggerSpec = swaggerJsdoc(options);
